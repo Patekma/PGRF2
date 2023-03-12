@@ -14,10 +14,6 @@ import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Github: https://github.com/MartmatiX/PGRF2_2023
- */
-
 public class SceneRenderer {
 
     private final JFrame frame;
