@@ -6,7 +6,6 @@ import transforms.Point3D;
 import java.util.List;
 
 public class Octahedron implements Solid{
-
     private final List<Vertex> vertices;
     private final List<Integer> indices;
     private final List<Part> parts;

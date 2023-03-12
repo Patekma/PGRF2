@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SceneRenderer {
-
     private final JFrame frame;
 
     private final JPanel panel;

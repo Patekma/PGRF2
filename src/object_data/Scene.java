@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scene {
-
     private List<Solid> solids;
-
     private List<Mat4> modelMats;
-
     public Scene() {
         this.solids = new ArrayList<>();
         this.modelMats = new ArrayList<>();

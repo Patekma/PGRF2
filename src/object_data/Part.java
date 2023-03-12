@@ -1,7 +1,6 @@
 package object_data;
 
 public class Part {
-
     private final Topology topology;
     private final int offset;
     private final int count;

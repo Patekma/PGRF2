@@ -6,7 +6,6 @@ import transforms.Mat4;
 import transforms.Point3D;
 
 public class Vertex implements Vectorizable<Vertex>, Transformable<Vertex> {
-
     private final Point3D position;
     private final Col color;
 
