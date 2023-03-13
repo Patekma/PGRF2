@@ -24,7 +24,6 @@ public class SceneRenderer {
     Camera camera = new Camera(new Vec3D(-10, 10, 5), 0, 0, 1, true);
     private final Double CAMERA_SPEED = 1d;
     private Point2D mousePos;
-    private boolean isWired = false;
     private final AxisRGB axisRGB = new AxisRGB();
     private final Mat4Transl arrowMat = new Mat4Transl(1, 1, 1);
     private final Mat4Transl cubeMat = new Mat4Transl(2,9,5);
@@ -33,6 +32,8 @@ public class SceneRenderer {
     private Mat4RotXYZ rotateCubeMat = new Mat4RotXYZ(10, 10, 10);
     private double gammaRotation = 1;
     private int selectedSolid = 1;
+
+    private boolean wired = false;
 
     public SceneRenderer(int width, int height) {
         frame = new JFrame();
@@ -91,7 +92,7 @@ public class SceneRenderer {
                     case KeyEvent.VK_K -> selectedSolid = 1;
                     case KeyEvent.VK_L -> selectedSolid = 2;
                     case KeyEvent.VK_I -> {
-                        isWired = !isWired;
+                        wired = !wired;
                     }
                     case KeyEvent.VK_NUMPAD8 -> {
                         solidMats.set(selectedSolid, moveObject(1));
@@ -205,16 +206,16 @@ public class SceneRenderer {
         scene.clearScene();
         scene.addSolid(axisRGB, new Mat4Scale(2).mul(new Mat4Transl(0, 0, 0)));
 
-        Arrow arrow = new Arrow(isWired);
+        Arrow arrow = new Arrow(wired);
         scene.addSolid(arrow, new Mat4Scale(10).mul(solidMats.get(0)));
 
-        Cube cube = new Cube(isWired);
+        Cube cube = new Cube(wired);
         scene.addSolid(cube, new Mat4Scale(5).mul(solidMats.get(1)));
 
-        Prism prism = new Prism(isWired);
+        Prism prism = new Prism(wired);
         scene.addSolid(prism, new Mat4Scale(10).mul(solidMats.get(2)));
 
-        Cube cubeRotate = new Cube(isWired);
+        Cube cubeRotate = new Cube(wired);
         scene.addSolid(cubeRotate, new Mat4Scale(1).mul(new Mat4Transl(0, 0, 0).mul(rotateCubeMat)));
 
         render();
