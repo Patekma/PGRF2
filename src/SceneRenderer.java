@@ -149,14 +149,14 @@ public class SceneRenderer {
 
         render();
 
-        Runnable renderSpinningPrism = () -> {
+        Runnable renderRotateCube = () -> {
             rotateCubeMat = new Mat4RotXYZ(rotateCubeMat.get(3, 0), rotateCubeMat.get(3, 1), rotateCubeMat.get(3,2) + gammaRotation);
             returnSolids();
         };
 
         Thread thread = new Thread(() -> {
            while (true){
-               renderSpinningPrism.run();
+               renderRotateCube.run();
                gammaRotation += 0.01;
                try {
                    Thread.sleep(1000 / 60);

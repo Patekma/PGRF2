@@ -12,13 +12,13 @@ public class AxisRGB implements Solid{
 
     public AxisRGB() {
         vertices = List.of(
+                new Vertex(new Point3D(0, 0, 0), new Col(0, 0, 255)),
                 new Vertex(new Point3D(0, 0, 0), new Col(255, 0, 0)),
                 new Vertex(new Point3D(0, 0, 0), new Col(0, 255, 0)),
-                new Vertex(new Point3D(0, 0, 0), new Col(0, 0, 255)),
 
-                new Vertex(new Point3D(1, 0, 0), new Col(255, 0, 0)),
-                new Vertex(new Point3D(0, 1, 0), new Col(0, 255, 0)),
-                new Vertex(new Point3D(0, 0, 1), new Col(0, 0, 255))
+                new Vertex(new Point3D(1, 0, 0), new Col(0, 0, 255)),
+                new Vertex(new Point3D(0, 1, 0), new Col(255, 0, 0)),
+                new Vertex(new Point3D(0, 0, 1), new Col(0, 255, 0))
         );
         indices = List.of(
                 0, 3,
