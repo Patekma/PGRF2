@@ -27,10 +27,10 @@ public class SceneRenderer {
     private boolean isWired = false;
     private final AxisRGB axisRGB = new AxisRGB();
     private final Mat4Transl arrowMat = new Mat4Transl(1, 1, 1);
-    private final Mat4Transl prismMat = new Mat4Transl(1, 10, 1);
-    private final Mat4Transl octahedronMat = new Mat4Transl(1, 10, 8);
-    private final ArrayList<Mat4Transl> solidMats = new ArrayList<>(List.of(arrowMat, prismMat, octahedronMat));
-    private Mat4RotXYZ spinningPrismMat = new Mat4RotXYZ(10, 10, 10);
+    private final Mat4Transl cubeMat = new Mat4Transl(2,9,5);
+    private final Mat4Transl prismMat = new Mat4Transl(8, 1, 8);
+    private final ArrayList<Mat4Transl> solidMats = new ArrayList<>(List.of(arrowMat, cubeMat, prismMat));
+    private Mat4RotXYZ rotateCubeMat = new Mat4RotXYZ(10, 10, 10);
     private double gammaRotation = 1;
     private int selectedSolid = 1;
 
@@ -61,7 +61,7 @@ public class SceneRenderer {
                 Camera angle: Left Mouse Button
                 Wired models: I
                 Select Arrow: J
-                Select Octahedron: K
+                Select Cube: K
                 Select Prism: L
                 Move selected: 8546
                 Exit: ESC
@@ -150,7 +150,7 @@ public class SceneRenderer {
         render();
 
         Runnable renderSpinningPrism = () -> {
-            spinningPrismMat = new Mat4RotXYZ(spinningPrismMat.get(3, 0), spinningPrismMat.get(3, 1), spinningPrismMat.get(3,2) + gammaRotation);
+            rotateCubeMat = new Mat4RotXYZ(rotateCubeMat.get(3, 0), rotateCubeMat.get(3, 1), rotateCubeMat.get(3,2) + gammaRotation);
             returnSolids();
         };
 
@@ -209,14 +209,14 @@ public class SceneRenderer {
         Arrow arrow = new Arrow(isWired);
         scene.addSolid(arrow, new Mat4Scale(10).mul(solidMats.get(0)));
 
+        Cube cube = new Cube();
+        scene.addSolid(cube, new Mat4Scale(5).mul(solidMats.get(1)));
+
         Prism prism = new Prism(isWired);
-        scene.addSolid(prism, new Mat4Scale(10).mul(solidMats.get(1)));
+        scene.addSolid(prism, new Mat4Scale(10).mul(solidMats.get(2)));
 
-        Octahedron octahedron = new Octahedron(isWired);
-        scene.addSolid(octahedron, new Mat4Scale(14).mul(solidMats.get(2)));
-
-        Prism prismSpin = new Prism(isWired);
-        scene.addSolid(prismSpin, new Mat4Scale(10).mul(new Mat4Transl(0, 0, 0).mul(spinningPrismMat)));
+        Cube cubeRotate = new Cube();
+        scene.addSolid(cubeRotate, new Mat4Scale(1).mul(new Mat4Transl(0, 0, 0).mul(rotateCubeMat)));
 
         render();
     }

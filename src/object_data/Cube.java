@@ -24,12 +24,8 @@ public class Cube implements Solid{
                 new Vertex(new Point3D(1, 1, 1), new Col(255, 0, 0))  // 7
         );
         indices = List.of(
-                0, 2, 3, 1, // bottom
-                5, 4, // left
-                6, 2, // up
-                7, 3, 1, 5, // down
-                4, 6, // top
-                2, 3  // right
+                0, 2, 3, 1, 5, 4,
+                6, 2, 7, 3, 1, 5, 4, 6, 2, 3
         );
 
         parts = List.of(
