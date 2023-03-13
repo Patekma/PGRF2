@@ -208,13 +208,13 @@ public class SceneRenderer {
         Arrow arrow = new Arrow(isWired);
         scene.addSolid(arrow, new Mat4Scale(10).mul(solidMats.get(0)));
 
-        Cube cube = new Cube();
+        Cube cube = new Cube(isWired);
         scene.addSolid(cube, new Mat4Scale(5).mul(solidMats.get(1)));
 
         Prism prism = new Prism(isWired);
         scene.addSolid(prism, new Mat4Scale(10).mul(solidMats.get(2)));
 
-        Cube cubeRotate = new Cube();
+        Cube cubeRotate = new Cube(isWired);
         scene.addSolid(cubeRotate, new Mat4Scale(1).mul(new Mat4Transl(0, 0, 0).mul(rotateCubeMat)));
 
         render();
