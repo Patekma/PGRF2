@@ -29,7 +29,8 @@ public class SceneRenderer {
     private final Mat4Transl cubeMat = new Mat4Transl(2,9,5);
     private final Mat4Transl prismMat = new Mat4Transl(8, 1, 8);
     private final ArrayList<Mat4Transl> solidMats = new ArrayList<>(List.of(arrowMat, cubeMat, prismMat));
-    private Mat4RotXYZ rotateCubeMat = new Mat4RotXYZ(10, 10, 10);
+    private Mat4RotXYZ rotateCubeMat = new Mat4RotXYZ(8, 8, 8);
+    private Mat4RotXYZ rotatePrismMat = new Mat4RotXYZ(6,6,6);
     private double gammaRotation = 1;
     private int selectedSolid = 1;
 
@@ -149,14 +150,15 @@ public class SceneRenderer {
 
         render();
 
-        Runnable renderRotateCube = () -> {
+        Runnable rotate = () -> {
             rotateCubeMat = new Mat4RotXYZ(rotateCubeMat.get(3, 0), rotateCubeMat.get(3, 1), rotateCubeMat.get(3,2) + gammaRotation);
+            rotatePrismMat = new Mat4RotXYZ(rotatePrismMat.get(3, 0), rotatePrismMat.get(3, 1), rotatePrismMat.get(3,2) + gammaRotation);
             returnSolids();
         };
 
         Thread thread = new Thread(() -> {
            while (true){
-               renderRotateCube.run();
+               rotate.run();
                gammaRotation += 0.01;
                try {
                    Thread.sleep(1000 / 60);
@@ -206,7 +208,7 @@ public class SceneRenderer {
         scene.clearScene();
         scene.addSolid(axisRGB, new Mat4Scale(2).mul(new Mat4Transl(0, 0, 0)));
 
-        Arrow arrow = new Arrow(wired);
+        Arrow arrow = new Arrow();
         scene.addSolid(arrow, new Mat4Scale(10).mul(solidMats.get(0)));
 
         Cube cube = new Cube(wired);
@@ -216,7 +218,10 @@ public class SceneRenderer {
         scene.addSolid(prism, new Mat4Scale(10).mul(solidMats.get(2)));
 
         Cube cubeRotate = new Cube(wired);
-        scene.addSolid(cubeRotate, new Mat4Scale(1).mul(new Mat4Transl(0, 0, 0).mul(rotateCubeMat)));
+        scene.addSolid(cubeRotate, new Mat4Scale(1).mul(new Mat4Transl(1, 1, 0).mul(rotateCubeMat)));
+
+        Prism prismRotate = new Prism(wired);
+        scene.addSolid(prismRotate, new Mat4Scale(4).mul(new Mat4Transl(0, 0, 0).mul(rotatePrismMat)));
 
         render();
     }
