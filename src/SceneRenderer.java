@@ -28,11 +28,13 @@ public class SceneRenderer {
     private final Mat4Transl arrowMat = new Mat4Transl(1, 1, 1);
     private final Mat4Transl cubeMat = new Mat4Transl(2,9,5);
     private final Mat4Transl prismMat = new Mat4Transl(8, 1, 8);
-    private final ArrayList<Mat4Transl> solidMats = new ArrayList<>(List.of(arrowMat, cubeMat, prismMat));
     private Mat4RotXYZ rotateCubeMat = new Mat4RotXYZ(8, 8, 8);
     private Mat4RotXYZ rotatePrismMat = new Mat4RotXYZ(6,6,6);
     private double gammaRotation = 1;
     private int selectedSolid = 1;
+    private final Mat4Transl coonsMat = new Mat4Transl(0, 8, -2);
+    private final Mat4Transl fergusonMat = new Mat4Transl(0, -4, -6);
+    private final ArrayList<Mat4Transl> objects = new ArrayList<>(List.of(arrowMat, cubeMat, prismMat, coonsMat, fergusonMat));
 
     private boolean wired = false;
 
@@ -60,7 +62,7 @@ public class SceneRenderer {
         System.out.println("""
                 Controls:
                 Move: WASD | EQ
-                Camera angle: Left Mouse Button
+                Camera angle: LMB
                 Wired models: I
                 Select Arrow: J
                 Select Cube: K
@@ -96,16 +98,16 @@ public class SceneRenderer {
                         wired = !wired;
                     }
                     case KeyEvent.VK_NUMPAD8 -> {
-                        solidMats.set(selectedSolid, moveObject(1));
+                        objects.set(selectedSolid, moveObject(1));
                     }
                     case KeyEvent.VK_NUMPAD6 -> {
-                        solidMats.set(selectedSolid, moveObject(2));
+                        objects.set(selectedSolid, moveObject(2));
                     }
                     case KeyEvent.VK_NUMPAD5 -> {
-                        solidMats.set(selectedSolid, moveObject(3));
+                        objects.set(selectedSolid, moveObject(3));
                     }
                     case KeyEvent.VK_NUMPAD4 -> {
-                        solidMats.set(selectedSolid, moveObject(4));
+                        objects.set(selectedSolid, moveObject(4));
                     }
                     case KeyEvent.VK_ESCAPE -> {
                         System.exit(0);
@@ -177,7 +179,7 @@ public class SceneRenderer {
     }
 
     public Mat4Transl moveObject(int direction) {
-        Mat4Transl originalMatrix = solidMats.get(selectedSolid);
+        Mat4Transl originalMatrix = objects.get(selectedSolid);
 
         switch (direction) {
             case 1 -> {
@@ -209,13 +211,13 @@ public class SceneRenderer {
         scene.addSolid(axisRGB, new Mat4Scale(2).mul(new Mat4Transl(0, 0, 0)));
 
         Arrow arrow = new Arrow();
-        scene.addSolid(arrow, new Mat4Scale(10).mul(solidMats.get(0)));
+        scene.addSolid(arrow, new Mat4Scale(10).mul(objects.get(0)));
 
         Cube cube = new Cube(wired);
-        scene.addSolid(cube, new Mat4Scale(5).mul(solidMats.get(1)));
+        scene.addSolid(cube, new Mat4Scale(5).mul(objects.get(1)));
 
         Prism prism = new Prism(wired);
-        scene.addSolid(prism, new Mat4Scale(10).mul(solidMats.get(2)));
+        scene.addSolid(prism, new Mat4Scale(10).mul(objects.get(2)));
 
         Cube cubeRotate = new Cube(wired);
         scene.addSolid(cubeRotate, new Mat4Scale(1).mul(new Mat4Transl(1, 1, 0).mul(rotateCubeMat)));
@@ -223,6 +225,8 @@ public class SceneRenderer {
         Prism prismRotate = new Prism(wired);
         scene.addSolid(prismRotate, new Mat4Scale(4).mul(new Mat4Transl(0, 0, 0).mul(rotatePrismMat)));
 
+        scene.addSolid(new BicubicArea(Cubic.COONS, new Col(255,128,255)), new Mat4Scale(4).mul(objects.get(3)));
+        scene.addSolid(new BicubicArea(Cubic.FERGUSON, new Col(255,255,80)), new Mat4Scale(3).mul(objects.get(4)));
         render();
     }
 
