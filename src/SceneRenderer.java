@@ -64,7 +64,7 @@ public class SceneRenderer {
                 Select Cube: K
                 Select Prism: L
                 Move selected: 8546
-                Exit: ESC
+                Close app: ESC
                 """);
 
         frame.add(panel, BorderLayout.CENTER);
@@ -93,10 +93,6 @@ public class SceneRenderer {
                     case KeyEvent.VK_I -> {
                         isWired = !isWired;
                     }
-                    case KeyEvent.VK_ESCAPE -> {
-                        System.out.println("Goodbye!\n");
-                        System.exit(0);
-                    }
                     case KeyEvent.VK_NUMPAD8 -> {
                         solidMats.set(selectedSolid, moveObject(1));
                     }
@@ -108,6 +104,9 @@ public class SceneRenderer {
                     }
                     case KeyEvent.VK_NUMPAD4 -> {
                         solidMats.set(selectedSolid, moveObject(4));
+                    }
+                    case KeyEvent.VK_ESCAPE -> {
+                        System.exit(0);
                     }
                 }
             }
